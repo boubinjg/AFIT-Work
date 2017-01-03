@@ -3,14 +3,11 @@
 #include<string>
 #include<fstream>
 #include<sstream>
-int main()
+using dVec = std::vector<std::vector<double>>;
+void readIn(std::vector<std::string>& cols, dVec& data)
 {
-	std::string line, value;
 	std::ifstream infile("RawData.csv");
-	
-	std::vector<std::string> cols;
-	std::vector<std::vector<double>> data;
-
+	std::string line, value;
 	std::getline(infile, line);
 	std::istringstream iss(line);
 	while(std::getline(iss, value, ','))
@@ -26,12 +23,32 @@ int main()
 				d.push_back(stod(value));
 		data.push_back(d);
 	}
-	for(auto s : cols)
+}
+void sanatize(dVec& data)
+{
+	for(auto it = data.begin(); it != data.end();)
 	{
-		std::cout<<s<<" ";
+		if((*it)[1] <6 || (int)(*it)[1] % 2 == 1)
+			it = data.erase(it);
+		else
+			it++;	
 	}
+}
+int main()
+{
+	std::vector<std::string> cols;
+	dVec data;
+	//reads in data from the RawData.csv datasheet.
+	readIn(cols, data);
+	//remove certain irelevant datapoints (may be unnecessary depending on data)
+	sanatize(data);
 	
-	
+	for(auto &dv : data)
+	{
+		for(auto d : dv)
+			std::cout<<d<<" ";
+		std::cout<<std::endl;
+	}
 
 	return 0;
 }
