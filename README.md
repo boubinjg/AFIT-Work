@@ -1,0 +1,1 @@
+This Repository contains a backup of basic analysis scripts and other small projects which I created while working at the Air Force Institute of Technology. These are generic analysis programs which I would like to have backed up outside of the private repositories which I use for my more targeted work.
